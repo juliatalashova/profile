@@ -7,11 +7,22 @@ function App() {
   let [user, setUser] = useState(null)
   let [loading, setLoading] = useState(true)
   let [error, setError] = useState(null)
+  let [repo, setRepo] = useState([])
 
   useEffect(() => {
-    apiClient.fetchJSON('/users/juliatalashova').then(user =>{
-      setUser(user)
-      setLoading(false)
+      apiClient.fetchJSON('/users/juliatalashova').then(user =>{
+        setUser(user)
+        setLoading(false)
+      })
+        .catch(error => setError(error))
+  },[])
+
+  useEffect(() => {
+    let rep;
+    apiClient.fetchJSON('/users/juliatalashova/repos')
+      .then(repo => {
+        setRepo(repo)
+        setLoading(false)
     })
       .catch(error => setError(error))
   },[])
@@ -32,6 +43,10 @@ function App() {
       <div>{user.bio}</div>
       <pre>
         <code>{JSON.stringify(user, null, 2)}</code>
+      </pre>
+      <h6>My repos</h6>
+      <pre>
+        <code>{JSON.stringify(repo.map(el => el.name), null, 2)}</code>
       </pre>
     </div>
   );
