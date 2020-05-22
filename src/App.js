@@ -18,7 +18,6 @@ function App() {
   },[])
 
   useEffect(() => {
-    let rep;
     apiClient.fetchJSON('/users/juliatalashova/repos')
       .then(repo => {
         setRepo(repo)
