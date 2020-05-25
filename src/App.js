@@ -10,19 +10,18 @@ function App() {
   let [repo, setRepo] = useState([])
 
   useEffect(() => {
-      apiClient.fetchJSON('/users/juliatalashova').then(user =>{
-        setUser(user)
-        setLoading(false)
-      })
-        .catch(error => setError(error))
-  },[])
+    let urls = [
+      '/users/juliatalashova',
+      '/users/juliatalashova/repos'
+    ]
 
-  useEffect(() => {
-    apiClient.fetchJSON('/users/juliatalashova/repos')
-      .then(repo => {
+    let requests = urls.map(url => apiClient.fetchJSON(url));
+    Promise.all(requests)
+      .then(([user, repo]) => {
+        setUser(user)
         setRepo(repo)
         setLoading(false)
-    })
+      })
       .catch(error => setError(error))
   },[])
 
