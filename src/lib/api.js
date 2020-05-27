@@ -3,7 +3,7 @@ import * as R from 'ramda'
 
 export function makeApiClient(apiOrigin) {
   async function fetchJSON(url, options = {}) {
-    if(!url.startsWith("http")) {
+    if (!url.startsWith("http")) {
       url = apiOrigin + url
     }
     options = R.mergeDeepRight(options, {
@@ -15,7 +15,7 @@ export function makeApiClient(apiOrigin) {
     })
 
     let response = await fetch(url, options)
-    if((response.headers.get('content-type') || '').includes('application/json')) {
+    if ((response.headers.get('content-type') || '').includes('application/json')) {
       try {
         return response.json()
       } catch (error) {

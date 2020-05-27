@@ -15,21 +15,21 @@ function App() {
       '/users/juliatalashova/repos'
     ]
 
-    let requests = urls.map(url => apiClient.fetchJSON(url));
+    let requests = urls.map(u => apiClient.fetchJSON(u));
     Promise.all(requests)
       .then(([user, repo]) => {
         setUser(user)
         setRepo(repo)
         setLoading(false)
       })
-      .catch(error => setError(error))
+      .catch(setError)
   },[])
 
-  if(error) {
+  if (error) {
     return <Error error={error} />
   }
 
-  if(loading) {
+  if (loading) {
     return <Loading />
   }
 
@@ -56,6 +56,6 @@ function Loading() {
       Loading...
     </div>
 }
-function Error(error) {
+function Error({error}) {
   return <div>{String(error)}</div>
 }
